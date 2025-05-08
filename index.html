@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BurgerPrime - Hamburgueria Artesanal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff6b00;
+            --primary-dark: #e05a00;
+            --secondary: #1a1a1a;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --success: #28a745;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--secondary);
+            color: white;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .logo span {
+            color: white;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: white;
+            margin-top: 70px;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Menu Section */
+        .section-title {
+            text-align: center;
+            margin: 80px 0 40px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .menu-categories {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            background: none;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray);
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .category-btn.active, .category-btn:hover {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+        
+        .menu-item {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-10px);
+        }
+        
+        .menu-item-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .menu-item-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .menu-item:hover .menu-item-img img {
+            transform: scale(1.1);
+        }
+        
+        .menu-item-content {
+            padding: 20px;
+        }
+        
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .menu-item-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .menu-item-price {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 20px;
+        }
+        
+        .menu-item-description {
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+        
+        .add-to-cart {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .add-to-cart:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        /* Cart Modal */
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s;
+            z-index: 1001;
+            overflow-y: auto;
+        }
+        
+        .cart-modal.active {
+            right: 0;
+        }
+        
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .cart-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        .cart-items {
+            padding: 20px;
+        }
+        
+        .cart-item {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        
+        .cart-item-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+        
+        .cart-item-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .cart-item-details {
+            flex: 1;
+        }
+        
+        .cart-item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .cart-item-price {
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .quantity-btn {
+            width: 25px;
+            height: 25px;
+            background-color: #eee;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        .cart-item-quantity {
+            margin: 0 10px;
+        }
+        
+        .remove-item {
+            margin-left: auto;
+            color: var(--gray);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .cart-total {
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .total-label {
+            font-weight: 600;
+        }
+        
+        .total-price {
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            margin-top: 20px;
+            background-color: var(--success);
+        }
+        
+        .checkout-btn:hover {
+            background-color: #218838;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Contact Section */
+        .contact {
+            background-color: var(--secondary);
+            color: white;
+            padding: 80px 0;
+        }
+        
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        
+        .contact-info h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .contact-info p {
+            margin-bottom: 15px;
+        }
+        
+        .contact-info i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .opening-hours h4 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .opening-hours ul {
+            list-style: none;
+        }
+        
+        .opening-hours li {
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            max-width: 250px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+        
+        .social-links {
+            margin-bottom: 20px;
+        }
+        
+        .social-links a {
+            color: white;
+            margin: 0 10px;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary);
+        }
+        
+        .copyright {
+            color: var(--gray);
+            font-size: 14px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 20px;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 10px;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cart-modal {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">Burger<span>Prime</span></div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Início</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#contact">Contato</a></li>
+                    <li>
+                        <div class="cart-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count">0</span>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Os Melhores Hambúrgueres Artesanais</h1>
+                <p>Ingredientes selecionados, preparo especial e um sabor inigualável. Experimente a verdadeira arte da hamburgueria.</p>
+                <a href="#menu" class="btn">Ver Menu</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nosso Menu</h2>
+                <p>Delicie-se com nossos hambúrgueres artesanais feitos com ingredientes premium e muito amor.</p>
+            </div>
+            
+            <div class="menu-categories">
+                <button class="category-btn active" data-category="all">Todos</button>
+                <button class="category-btn" data-category="burgers">Hambúrgueres</button>
+                <button class="category-btn" data-category="combos">Combos</button>
+                <button class="category-btn" data-category="sides">Acompanhamentos</button>
+                <button class="category-btn" data-category="drinks">Bebidas</button>
+            </div>
+            
+            <div class="menu-grid">
+                <!-- Hambúrgueres -->
+                <div class="menu-item" data-category="burgers">
+                    <div class="menu-item-img">
+                        <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Burger Prime">
+                    </div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-header">
+                            <h3 class="menu-item-title">Burger Prime</h3>
+                            <span class="menu-item-price">R$ 29,90</span>
+                        </div>
+                        <p class="menu-item-description">Pão brioche, blend 180g, queijo cheddar, bacon crocante, alface, tomate e molho especial.</p>
+                        <button class="add-to-cart" data-id="1" data-name="Burger Prime" data-price="29.90" data-image="https://images.unsplash.com/photo-1550547660-d9450f859349?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="burgers">
+                    <div class="menu-item-img">
+                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Cheese Bacon">
+                    </div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-header">
+                            <h3 class="menu-item-title">Cheese Bacon</h3>
+                            <span class="menu-item-price">R$ 27,90</span>
+                        </div>
+                        <p class="menu-item-description">Pão australiano, blend 160g, queijo prato, bacon, cebola caramelizada e maionese da casa.</p>
+                        <button class="add-to-cart" data-id="2" data-name="Cheese Bacon" data-price="27.90" data-image="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="burgers">
+                    <div class="menu-item-img">
+                        <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Vegetariano">
+                    </div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-header">
+                            <h3 class="menu-item-title">Vegetariano</h3>
+                            <span class="menu-item-price">R$ 25,90</span>
+                        </div>
+                        <p class="menu-item-description">Pão integral, hambúrguer de grão-de-bico, queijo coalho, abobrinha grelhada e molho de iogurte.</p>
+                        <button class="add-to-cart" data-id="3" data-name="Vegetariano" data-price="25.90" data-image="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+                
+                <!-- Combos -->
+                <div class="menu-item" data-category="combos">
+                    <div class="menu-item-img">
+                        <img src="https://images.unsplash.com/photo-1547584370-2cc98b8b8dc8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Combo Prime">
+                    </div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-header">
+                            <h3 class="menu-item-title">Combo Prime</h3>
+                            <span class="menu-item-price">R$ 39,90</span>
+                        </div>
+                        <p class="menu-item-description">Burger Prime + batata rústica + refrigerante 300ml. Economize R$ 5,00.</p>
+                        <button class="add-to-cart" data-id="4" data-name="Combo Prime" data-price="39.90" data-image="https://images.unsplash.com/photo-1547584370-2cc98b8b8dc8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="combos">
+                    <div class="menu-item-img">
+                        <img src="https://images.unsplash.com/photo-1551615593-ef5fe247e8f7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Combo Duplo">
+                    </div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-header">
+                            <h3 class="menu-item-title">Combo Duplo</h3>
+                            <span class="menu-item-price">R$ 49,90</span>
+                        </div>
+                        <p class="menu-item-description">2 Cheese Bacon + 2 batatas médias + 2 refrigerantes 300ml. Economize R$ 10,00.</p>
+                        <button class="add-to-cart" data-id="5" data-name="Combo Duplo" data-price="49.90" data-image="https://images.unsplash.com/photo-1551615593-ef5fe247e8f7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+                
+                <!-- Acompanhamentos -->
+                <div class="menu-item" data-category="sides">
+                    <div class="menu-item-img">
+                        <img src="https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Batata Rústica">
+                    </div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-header">
+                            <h3 class="menu-item-title">Batata Rústica</h3>
+                            <span class="menu-item-price">R$ 12,90</span>
+                        </div>
+                        <p class="menu-item-description">Batata assada com casca, temperada com alecrim e sal grosso. Acompanha molho especial.</p>
+                        <button class="add-to-cart" data-id="6" data-name="Batata Rústica" data-price="12.90" data-image="https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="sides">
+                    <div class="menu-item-img">
+                        <img src="https://images.unsplash.com/photo-1586816001966-79b736744398?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Onion Rings">
+                    </div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-header">
+                            <h3 class="menu-item-title">Onion Rings</h3>
+                            <span class="menu-item-price">R$ 14,90</span>
+                        </div>
+                        <p class="menu-item-description">Anéis de cebola empanados e crocantes. Acompanha molho barbecue artesanal.</p>
+                        <button class="add-to-cart" data-id="7" data-name="Onion Rings" data-price="14.90" data-image="https://images.unsplash.com/photo-1586816001966-79b736744398?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+                
+                <!-- Bebidas -->
+                <div class="menu-item" data-category="drinks">
+                    <div class="menu-item-img">
+                        <img src="https://images.unsplash.com/photo-1551029506-0807df4e2031?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Refrigerante">
+                    </div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-header">
+                            <h3 class="menu-item-title">Refrigerante</h3>
+                            <span class="menu-item-price">R$ 6,90</span>
+                        </div>
+                        <p class="menu-item-description">Lata 350ml - Coca-Cola, Guaraná, Fanta ou Sprite.</p>
+                        <button class="add-to-cart" data-id="8" data-name="Refrigerante" data-price="6.90" data-image="https://images.unsplash.com/photo-1551029506-0807df4e2031?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="drinks">
+                    <div class="menu-item-img">
+                        <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Suco Natural">
+                    </div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-header">
+                            <h3 class="menu-item-title">Suco Natural</h3>
+                            <span class="menu-item-price">R$ 8,90</span>
+                        </div>
+                        <p class="menu-item-description">300ml - Laranja, Abacaxi com Hortelã ou Maracujá.</p>
+                        <button class="add-to-cart" data-id="9" data-name="Suco Natural" data-price="8.90" data-image="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nosso Contato</h2>
+                <p>Estamos sempre prontos para te atender da melhor forma possível.</p>
+            </div>
+            
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Informações</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Rua dos Sabores, 123 - Centro, São Paulo/SP</p>
+                    <p><i class="fas fa-phone"></i> (11) 1234-5678</p>
+                    <p><i class="fas fa-envelope"></i> contato@burgerprime.com.br</p>
+                    
+                    <div class="opening-hours">
+                        <h4>Horário de Funcionamento</h4>
+                        <ul>
+                            <li>Segunda a Quinta <span>18h - 23h</span></li>
+                            <li>Sexta e Sábado <span>18h - 00h</span></li>
+                            <li>Domingo <span>12h - 22h</span></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.0754267452926!2d-46.65342658440738!3d-23.56573436763838!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1620000000000!5m2!1spt-BR!2sbr" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <p class="copyright">© 2023 BurgerPrime. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal">
+        <div class="cart-header">
+            <h3 class="cart-title">Seu Carrinho</h3>
+            <button class="close-cart">&times;</button>
+        </div>
+        <div class="cart-items">
+            <!-- Itens do carrinho serão adicionados aqui dinamicamente -->
+        </div>
+        <div class="cart-total">
+            <div class="total-row">
+                <span class="total-label">Subtotal</span>
+                <span class="total-price">R$ 0,00</span>
+            </div>
+            <div class="total-row">
+                <span class="total-label">Taxa de Entrega</span>
+                <span class="total-price">R$ 5,00</span>
+            </div>
+            <div class="total-row">
+                <span class="total-label">Total</span>
+                <span class="total-price">R$ 5,00</span>
+            </div>
+            <button class="btn checkout-btn">Finalizar Pedido</button>
+        </div>
+    </div>
+    
+    <div class="overlay"></div>
+
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos do DOM
+            const cartIcon = document.querySelector('.cart-icon');
+            const cartModal = document.querySelector('.cart-modal');
+            const overlay = document.querySelector('.overlay');
+            const closeCart = document.querySelector('.close-cart');
+            const cartItemsContainer = document.querySelector('.cart-items');
+            const cartCount = document.querySelector('.cart-count');
+            const totalPrice = document.querySelectorAll('.total-price');
+            const addToCartBtns = document.querySelectorAll('.add-to-cart');
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            const menuItems = document.querySelectorAll('.menu-item');
+            const checkoutBtn = document.querySelector('.checkout-btn');
+            
+            // Carrinho
+            let cart = [];
+            
+            // Abrir/Fechar Carrinho
+            cartIcon.addEventListener('click', () => {
+                cartModal.classList.add('active');
+                overlay.classList.add('active');
+            });
+            
+            closeCart.addEventListener('click', () => {
+                cartModal.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+            
+            overlay.addEventListener('click', () => {
+                cartModal.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+            
+            // Adicionar ao Carrinho
+            addToCartBtns.forEach(btn => {
+                btn.addEventListener('click', addToCart);
+            });
+            
+            function addToCart(e) {
+                const id = e.target.dataset.id;
+                const name = e.target.dataset.name;
+                const price = parseFloat(e.target.dataset.price);
+                const image = e.target.dataset.image;
+                
+                // Verificar se o item já está no carrinho
+                const existingItem = cart.find(item => item.id === id);
+                
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({
+                        id,
+                        name,
+                        price,
+                        image,
+                        quantity: 1
+                    });
+                }
+                
+                updateCart();
+                
+                // Feedback visual
+                const btn = e.target;
+                btn.textContent = 'Adicionado!';
+                btn.style.backgroundColor = '#28a745';
+                
+                setTimeout(() => {
+                    btn.textContent = 'Adicionar ao Carrinho';
+                    btn.style.backgroundColor = '#ff6b00';
+                }, 1000);
+            }
+            
+            // Atualizar Carrinho
+            function updateCart() {
+                // Atualizar contador
+                const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+                cartCount.textContent = totalItems;
+                
+                // Atualizar itens no carrinho
+                cartItemsContainer.innerHTML = '';
+                
+                if (cart.length === 0) {
+                    cartItemsContainer.innerHTML = '<p style="text-align: center;">Seu carrinho está vazio</p>';
+                } else {
+                    cart.forEach(item => {
+                        const cartItemElement = document.createElement('div');
+                        cartItemElement.classList.add('cart-item');
+                        cartItemElement.innerHTML = `
+                            <div class="cart-item-img">
+                                <img src="${item.image}" alt="${item.name}">
+                            </div>
+                            <div class="cart-item-details">
+                                <h4 class="cart-item-name">${item.name}</h4>
+                                <p class="cart-item-price">R$ ${item.price.toFixed(2)}</p>
+                                <div class="cart-item-actions">
+                                    <button class="quantity-btn minus" data-id="${item.id}">-</button>
+                                    <span class="cart-item-quantity">${item.quantity}</span>
+                                    <button class="quantity-btn plus" data-id="${item.id}">+</button>
+                                    <button class="remove-item" data-id="${item.id}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                        cartItemsContainer.appendChild(cartItemElement);
+                    });
+                }
+                
+                // Atualizar totais
+                const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+                const deliveryFee = 5.00;
+                const total = subtotal + deliveryFee;
+                
+                totalPrice[0].textContent = `R$ ${subtotal.toFixed(2)}`;
+                totalPrice[2].textContent = `R$ ${total.toFixed(2)}`;
+                
+                // Adicionar eventos aos botões de quantidade e remover
+                document.querySelectorAll('.quantity-btn.minus').forEach(btn => {
+                    btn.addEventListener('click', decreaseQuantity);
+                });
+                
+                document.querySelectorAll('.quantity-btn.plus').forEach(btn => {
+                    btn.addEventListener('click', increaseQuantity);
+                });
+                
+                document.querySelectorAll('.remove-item').forEach(btn => {
+                    btn.addEventListener('click', removeItem);
+                });
+            }
+            
+            // Aumentar quantidade
+            function increaseQuantity(e) {
+            const id = e.target.dataset.id;
+            const item = cart.find(item => item.id === id);
+            item.quantity += 1;
+            updateCart();
+        }
+        
+        // Diminuir quantidade
+        function decreaseQuantity(e) {
+            const id = e.target.dataset.id;
+            const item = cart.find(item => item.id === id);
+            
+            if (item.quantity > 1) {
+                item.quantity -= 1;
+            } else {
+                // Se a quantidade for 1, remover o item
+                cart = cart.filter(item => item.id !== id);
+            }
+            updateCart();
+        }
+        
+        // Remover item
+        function removeItem(e) {
+            const id = e.target.closest('button').dataset.id;
+            cart = cart.filter(item => item.id !== id);
+            updateCart();
+        }
+        
+        // Filtrar menu por categoria
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remover classe active de todos os botões
+                categoryBtns.forEach(btn => btn.classList.remove('active'));
+                // Adicionar classe active ao botão clicado
+                btn.classList.add('active');
+                
+                const category = btn.dataset.category;
+                
+                menuItems.forEach(item => {
+                    if (category === 'all' || item.dataset.category === category) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Finalizar pedido
+        checkoutBtn.addEventListener('click', () => {
+            if (cart.length === 0) {
+                alert('Seu carrinho está vazio!');
+                return;
+            }
+            
+            // Aqui você pode adicionar a lógica para enviar o pedido
+            // Por exemplo, enviar para um backend ou abrir um WhatsApp
+            
+            // Exemplo: Abrir WhatsApp com o pedido
+            let message = 'Olá, gostaria de fazer um pedido:\n\n';
+            cart.forEach(item => {
+                message += `${item.name} - ${item.quantity}x - R$ ${(item.price * item.quantity).toFixed(2)}\n`;
+            });
+            
+            const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            const deliveryFee = 5.00;
+            const total = subtotal + deliveryFee;
+            
+            message += `\nSubtotal: R$ ${subtotal.toFixed(2)}\n`;
+            message += `Taxa de entrega: R$ ${deliveryFee.toFixed(2)}\n`;
+            message += `Total: R$ ${total.toFixed(2)}\n\n`;
+            message += 'Meu endereço é: [INSIRA SEU ENDEREÇO AQUI]';
+            
+            const whatsappUrl = `https://wa.me/5511123456789?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+            
+            // Limpar carrinho após finalizar
+            cart = [];
+            updateCart();
+            cartModal.classList.remove('active');
+            overlay.classList.remove('active');
+            
+            alert('Pedido enviado com sucesso! Em breve entraremos em contato para confirmar.');
+        });
+        
+        // Inicializar carrinho
+        updateCart();
+    });
+</script>
+</body>
+</html>
